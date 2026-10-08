@@ -1,0 +1,42 @@
+# Liste des services qui compose l'application
+services:
+  # Service pour le serveur web Apache avec PHP
+  web:
+    # Chemin vers le Dockerfile pour construire l'image du service web
+    build: .
+    ports:
+    # Relie le port 8082 de l'hôte au port 80 du conteneur
+      - "8082:80"
+    # Variables d'environnement pour la connexion à la base de données
+    environment:
+    # Nom de l'hôte de la base de données (service "db" dans Docker)
+      DB_HOST: db
+    # Nom d'utilisateur MySQL
+      DB_USER: root
+    # Mot de passe MySQL
+      DB_PASSWORD: root
+    # Nom de la base de données
+      DB_BASE: coursportfolio
+    # Démarre le service web après le service de base de données
+    depends_on:
+      - db
+
+    # Service de la base de données MySQL
+  db:
+    # Image officielle MySQL, téléchargée depuis Docker Hub
+    image: mysql:8.0
+    environment:
+      # Mot de passe de l'utilisateur
+      MYSQL_ROOT_PASSWORD: root
+      # Base créée automatiquement au premier démarrage
+      MYSQL_DATABASE: coursportfolio
+    volumes:
+      # Script SQL exécuté au premier démarrage pour créer la table "creation"
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # Volume nommé : conserve les données même si le conteneur est supprimé
+      - db_data:/var/lib/mysql
+
+# Déclaration du volume nommé utilisé par le service db
+volumes:
+  db_data:
+

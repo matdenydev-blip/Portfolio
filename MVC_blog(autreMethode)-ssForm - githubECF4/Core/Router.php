@@ -10,7 +10,8 @@ class Router
         //On teste si la superglobale $_GET['controller'] est déclarée et non vide, puis on ajoute le premier index de $_GET dans la variable
         //$controller, ou par défaut 'home', ainsi que son namespace, plus le mot Controller 
         //pour compléter le nom de la classe controller à instancier.
-        $controller = (isset($_GET['controller']) ? ucfirst(array_shift($_GET)) : 'home');
+        // Modification de "home" en "Home" pour Docker
+        $controller = (isset($_GET['controller']) ? ucfirst(array_shift($_GET)) : 'Home');
         $controller = '\\App\\Controllers\\' . $controller . 'Controller';
 
         //On teste si la superglobale $_GET['action'] est déclarée et non vide, puis on ajoute le premier index de $_GET dans la variable
