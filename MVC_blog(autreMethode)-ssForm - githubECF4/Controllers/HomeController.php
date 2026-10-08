@@ -7,7 +7,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $creation = new Creation();
+    //    $creation = new Creation();
         $this->render('home/index');
     }
 }
